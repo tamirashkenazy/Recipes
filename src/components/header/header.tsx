@@ -1,31 +1,16 @@
 import React from 'react'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
+import Button from '@material-ui/core/Button'
+import { headerUseStyles } from './header.style'
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1
-    },
-    menuButton: {
-      marginRight: theme.spacing(2)
-    },
-    title: {
-      flexGrow: 1,
-      fontFamily: 'Courgette'
-    }
-  })
-)
-
-export const MenuAppBar = () => {
-  const classes = useStyles()
+export const Header = () => {
+  const classes = headerUseStyles()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
 
@@ -41,17 +26,20 @@ export const MenuAppBar = () => {
     <div className={classes.root}>
       <AppBar color='default' position='static'>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             edge='start'
             className={classes.menuButton}
             color='inherit'
             aria-label='menu'
-          >
-            <MenuIcon />
-          </IconButton>
+          > */}
+          {/* <MenuIcon /> */}
+          {/* </IconButton> */}
           <Typography variant='h6' className={classes.title}>
-            Cookie Monster
+            <a href='/'>Cookie Monster</a>
           </Typography>
+          <Button color='inherit' href='/login'>
+            Login
+          </Button>
           <div>
             <IconButton
               aria-label='account of current user'

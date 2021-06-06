@@ -1,13 +1,19 @@
 import React from 'react'
 import './App.css'
-import { MenuAppBar } from './components/navbar/navbar'
+import { Header } from './components/header/header'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { LoginComponent } from './components/login/login'
 
 function App() {
   return (
-    <React.Fragment>
-      <MenuAppBar />
-      <h1>Blah Blah</h1>
-    </React.Fragment>
+    <Router>
+      <Header />
+      <Switch>
+        <Route path='/login'>
+          <LoginComponent />
+        </Route>
+      </Switch>
+    </Router>
   )
 }
 
