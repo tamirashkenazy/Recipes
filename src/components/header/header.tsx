@@ -6,8 +6,10 @@ import IconButton from '@material-ui/core/IconButton'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
-import Button from '@material-ui/core/Button'
 import { headerUseStyles } from './header.style'
+import { useUserDataStore } from '../../stores/user.store'
+import { Link } from 'react-router-dom'
+import { auth } from '../../firebase/firebase.utils'
 
 export const Header = () => {
   const classes = headerUseStyles()
@@ -21,6 +23,8 @@ export const Header = () => {
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  const currentUser = useUserDataStore((state) => state.currentUser)
 
   return (
     <div className={classes.root}>
@@ -37,38 +41,50 @@ export const Header = () => {
           <Typography variant='h6' className={classes.title}>
             <a href='/'>Cookie Monster</a>
           </Typography>
-          <Button color='inherit' href='/login'>
+          {/* <Button color='inherit' href='/login'>
             Login
-          </Button>
-          <div>
-            <IconButton
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
-              onClick={handleMenu}
-              color='inherit'
-            >
-              <AccountCircle />
-            </IconButton>
-            <Menu
-              id='menu-appbar'
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              open={open}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
-            </Menu>
-          </div>
+          </Button> */}
+          {currentUser ? (
+            <div>
+              <IconButton
+                aria-label='account of current user'
+                aria-controls='menu-appbar'
+                aria-haspopup='true'
+                onClick={handleMenu}
+                color='inherit'
+              >
+                <AccountCircle />
+              </IconButton>
+
+              <Menu
+                id='menu-appbar'
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    auth.signOut()
+                  }}
+                >
+                  Sign Out
+                </MenuItem>
+              </Menu>
+            </div>
+          ) : (
+            <Link to='/login'>Sign In</Link>
+          )}
         </Toolbar>
       </AppBar>
     </div>
