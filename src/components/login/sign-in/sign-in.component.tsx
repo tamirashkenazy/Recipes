@@ -11,6 +11,7 @@ import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import { signInUseStyles } from './sign-in.styles'
 import { Button } from '@material-ui/core'
+import { signInWithGoogle } from '../../../firebase/firebase.utils'
 
 export const SignInComponent = () => {
   const classes = signInUseStyles()
@@ -74,7 +75,7 @@ export const SignInComponent = () => {
       </div>
       <div>
         <Button variant='contained'>Sign In</Button>
-        <Button color='primary' variant='contained'>
+        <Button color='primary' variant='contained' onClick={signInWithGoogle}>
           Google
         </Button>
       </div>
