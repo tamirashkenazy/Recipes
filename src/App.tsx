@@ -1,35 +1,46 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import './App.css'
 import { Header } from './components/header/header'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { LoginComponent } from './components/login/login'
-import { useUserDataStore } from './stores/user.store'
+import { auth } from './firebase/firebase.utils'
+import {
+  CurrentUserState,
+  UnsubscribeUserMethodType
+} from './interfaces/app.interface'
 
-function App() {
-  const { fetchUser, unsubscribe } = useUserDataStore((state) => ({
-    fetchUser: state.fetchData,
-    unsubscribe: state.unsubscribe
-  }))
-
-  useEffect(() => {
-    fetchUser()
-    return () => {
-      if (unsubscribe) {
-        unsubscribe()
-      }
+class App extends React.Component<{}, CurrentUserState> {
+  constructor(props) {
+    super(props)
+    this.state = {
+      currentUser: null
     }
-  }, [fetchUser, unsubscribe])
+  }
 
-  return (
-    <Router>
-      <Header />
-      <Switch>
-        <Route path='/login'>
-          <LoginComponent />
-        </Route>
-      </Switch>
-    </Router>
-  )
+  unsubscribeFromAuth: UnsubscribeUserMethodType = null
+
+  componentDidMount() {
+    this.unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
+      this.setState({ currentUser: user })
+    })
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribeFromAuth) this.unsubscribeFromAuth()
+  }
+
+  render() {
+    return (
+      <Router>
+        <Header currentUser={this.state.currentUser} />
+        <Switch>
+          <Route path='/login'>
+            <LoginComponent />
+          </Route>
+        </Switch>
+      </Router>
+    )
+  }
 }
 
 export default App
