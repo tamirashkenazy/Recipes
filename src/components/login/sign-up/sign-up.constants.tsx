@@ -1,4 +1,4 @@
-export const signUpFormValues = {
+export const signUpInitFormValues = {
   displayName: '',
   email: '',
   password: '',

@@ -15,14 +15,14 @@ import {
   auth,
   createUserProfileDocument
 } from '../../../firebase/firebase.utils'
-import { signUpFormValues } from './sign-up.constants'
+import { signUpInitFormValues } from './sign-up.constants'
 import { commonStyles } from '../../../styles/common.styles'
 
 export const SignUpComponent = () => {
   const classes = signUpUseStyles()
   const commonStyle = commonStyles()
   const [showPassword, setShowPassword] = useState<boolean>(false)
-  const [values, setValues] = useState<SignUpFormProps>(signUpFormValues)
+  const [values, setValues] = useState<SignUpFormProps>(signUpInitFormValues)
   const [error, setError] = useState<string | null>(null)
 
   const handleChange =
@@ -51,7 +51,7 @@ export const SignUpComponent = () => {
         password
       )
       createUserProfileDocument(user, { displayName })
-      setValues(signUpFormValues)
+      setValues(signUpInitFormValues)
     } catch (error) {
       const message = (error as unknown as Error).message
       setError(message)
@@ -146,7 +146,7 @@ export const SignUpComponent = () => {
           Sign Up
         </Button>
       </div>
-      {error && <p>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   )
 }

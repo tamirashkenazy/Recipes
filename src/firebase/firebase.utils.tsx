@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
+import { UserAuthTypeFromDB } from '../interfaces/app.interface'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAplXyVORSlx0b9Nr3qGDh7UXpaHZYdJZw',
@@ -18,7 +19,11 @@ export const auth = firebase.auth()
 
 export const firestore = firebase.firestore()
 
-export const createUserProfileDocument = async (userAuth, additionalData) => {
+export const createUserProfileDocument = async (
+  userAuth: UserAuthTypeFromDB,
+  additionalData?: { [x: string]: unknown }
+) => {
+  // userAuth is returnd from the login
   if (!userAuth) return
 
   const userRef: firebase.firestore.DocumentReference = firestore.doc(

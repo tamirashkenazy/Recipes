@@ -3,7 +3,7 @@ import './App.css'
 import { Header } from './components/header/header'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { LoginComponent } from './components/login/login'
-import { auth } from './firebase/firebase.utils'
+import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 import {
   CurrentUserState,
   UnsubscribeUserMethodType
@@ -20,8 +20,24 @@ class App extends React.Component<{}, CurrentUserState> {
   unsubscribeFromAuth: UnsubscribeUserMethodType = null
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
-      this.setState({ currentUser: user })
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth)
+        if (userRef) {
+          userRef.onSnapshot((snapShot) => {
+            this.setState({
+              currentUser: {
+                id: snapShot.id,
+                ...snapShot.data()
+              }
+            })
+          })
+        }
+      } else {
+        this.setState({
+          currentUser: null
+        })
+      }
     })
   }
 
