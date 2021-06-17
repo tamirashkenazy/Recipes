@@ -1,7 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
-import { UserAuthTypeFromDB } from '../interfaces/app.interface'
+import { UserAuthTypeFromDB } from '../interfaces/user.interface'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAplXyVORSlx0b9Nr3qGDh7UXpaHZYdJZw',

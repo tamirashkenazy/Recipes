@@ -10,17 +10,19 @@ import IconButton from '@material-ui/core/IconButton'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import { signInUseStyles } from './sign-in.styles'
-import { Button } from '@material-ui/core'
+import { Button, Divider, Paper, Typography } from '@material-ui/core'
 import { auth, signInWithGoogle } from '../../../firebase/firebase.utils'
 import { commonStyles } from '../../../styles/common.styles'
-import { signInValues } from './sign-in.constants'
+import { signInInitValues } from './sign-in.constants'
+import { EMAIL } from '../../../constants/user.constants'
+import { PASSWORD } from '../login.constants'
 
 export const SignInComponent = () => {
   const classes = signInUseStyles()
   const commonStyle = commonStyles()
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [signInFormValues, setSignInFormValues] =
-    useState<SignInFormProps>(signInValues)
+    useState<SignInFormProps>(signInInitValues)
   const [error, setError] = useState<string | null>(null)
 
   const handleChange =
@@ -42,7 +44,7 @@ export const SignInComponent = () => {
     const { email, password } = signInFormValues
     try {
       await auth.signInWithEmailAndPassword(email, password)
-      setSignInFormValues(signInValues)
+      setSignInFormValues(signInInitValues)
     } catch (error) {
       const message = (error as unknown as Error).message
       setError(message)
@@ -51,13 +53,17 @@ export const SignInComponent = () => {
   }
 
   return (
-    <div className={commonStyle.textCenter}>
+    <Paper className={clsx(commonStyle.textCenter, commonStyle.padding)}>
+      <Typography className={commonStyle.marginBottom} variant='h6'>
+        Sign In
+      </Typography>
+      <Divider className={commonStyle.marginBottom} />
       <div>
         <TextField
           label='Email'
           className={clsx(classes.margin, classes.textField)}
-          value={signInFormValues.email}
-          onChange={handleChange('email')}
+          value={signInFormValues[EMAIL]}
+          onChange={handleChange(EMAIL)}
           variant='outlined'
         />
       </div>
@@ -72,8 +78,8 @@ export const SignInComponent = () => {
           <OutlinedInput
             id='outlined-adornment-password'
             type={showPassword ? 'text' : 'password'}
-            value={signInFormValues.password}
-            onChange={handleChange('password')}
+            value={signInFormValues[PASSWORD]}
+            onChange={handleChange(PASSWORD)}
             endAdornment={
               <InputAdornment position='end'>
                 <IconButton
@@ -90,7 +96,7 @@ export const SignInComponent = () => {
           />
         </FormControl>
       </div>
-      <div>
+      <div className={commonStyle.marginTop}>
         <Button variant='contained' onClick={signInWithEmailPassword}>
           Sign In
         </Button>
@@ -99,6 +105,6 @@ export const SignInComponent = () => {
         </Button>
       </div>
       {error && <div>{error}</div>}
-    </div>
+    </Paper>
   )
 }

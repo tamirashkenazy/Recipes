@@ -9,9 +9,9 @@ import Menu from '@material-ui/core/Menu'
 import { headerUseStyles } from './header.style'
 import { Link } from 'react-router-dom'
 import { auth } from '../../firebase/firebase.utils'
-import { currentUserType } from '../../interfaces/app.interface'
+import { UserType } from '../../interfaces/user.interface'
 
-export const Header: FunctionComponent<{ currentUser: currentUserType }> = ({
+export const Header: FunctionComponent<{ currentUser: UserType }> = ({
   currentUser
 }) => {
   const classes = headerUseStyles()

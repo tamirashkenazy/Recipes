@@ -10,13 +10,15 @@ import IconButton from '@material-ui/core/IconButton'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import { signUpUseStyles } from './sign-up.styles'
-import { Button } from '@material-ui/core'
+import { Button, Divider, Paper, Typography } from '@material-ui/core'
 import {
   auth,
   createUserProfileDocument
 } from '../../../firebase/firebase.utils'
 import { signUpInitFormValues } from './sign-up.constants'
 import { commonStyles } from '../../../styles/common.styles'
+import { DISPLAY_NAME, EMAIL } from '../../../constants/user.constants'
+import { CONFIRM_PASSWORD, PASSWORD } from '../login.constants'
 
 export const SignUpComponent = () => {
   const classes = signUpUseStyles()
@@ -58,15 +60,18 @@ export const SignUpComponent = () => {
       console.error(message)
     }
   }
-
   return (
-    <div className={commonStyle.textCenter}>
+    <Paper className={clsx(commonStyle.textCenter, commonStyle.padding)}>
+      <Typography className={commonStyle.marginBottom} variant='h6'>
+        Sign Up
+      </Typography>
+      <Divider className={commonStyle.marginBottom} />
       <div>
         <TextField
           label='Name'
           className={clsx(classes.margin, classes.textField)}
-          value={values.displayName}
-          onChange={handleChange('displayName')}
+          value={values[DISPLAY_NAME]}
+          onChange={handleChange(DISPLAY_NAME)}
           variant='outlined'
           required
         />
@@ -75,8 +80,8 @@ export const SignUpComponent = () => {
         <TextField
           label='Email'
           className={clsx(classes.margin, classes.textField)}
-          value={values.email}
-          onChange={handleChange('email')}
+          value={values[EMAIL]}
+          onChange={handleChange(EMAIL)}
           variant='outlined'
           required
         />
@@ -93,8 +98,8 @@ export const SignUpComponent = () => {
           <OutlinedInput
             id='outlined-adornment-password'
             type={showPassword ? 'text' : 'password'}
-            value={values.password}
-            onChange={handleChange('password')}
+            value={values[PASSWORD]}
+            onChange={handleChange(PASSWORD)}
             endAdornment={
               <InputAdornment position='end'>
                 <IconButton
@@ -123,8 +128,8 @@ export const SignUpComponent = () => {
           <OutlinedInput
             id='outlined-adornment-confirm-password'
             type={showPassword ? 'text' : 'password'}
-            value={values.confirmPassword}
-            onChange={handleChange('confirmPassword')}
+            value={values[CONFIRM_PASSWORD]}
+            onChange={handleChange(CONFIRM_PASSWORD)}
             endAdornment={
               <InputAdornment position='end'>
                 <IconButton
@@ -141,12 +146,12 @@ export const SignUpComponent = () => {
           />
         </FormControl>
       </div>
-      <div>
+      <div className={commonStyle.marginTop}>
         <Button variant='contained' onClick={handleSubmit}>
           Sign Up
         </Button>
       </div>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-    </div>
+    </Paper>
   )
 }

@@ -16,11 +16,11 @@ export const LoginComponent = () => {
   const classes = useGridStyles()
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={6} sm={6}>
+      <Grid container justify='space-evenly' spacing={3}>
+        <Grid item>
           <SignInComponent />
         </Grid>
-        <Grid item xs={6} sm={6}>
+        <Grid item>
           <SignUpComponent />
         </Grid>
       </Grid>

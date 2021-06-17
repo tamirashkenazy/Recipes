@@ -5,9 +5,14 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { LoginComponent } from './components/login/login'
 import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 import {
-  CurrentUserState,
+  UserType,
   UnsubscribeUserMethodType
-} from './interfaces/app.interface'
+} from './interfaces/user.interface'
+import { Home } from './components/home/home.component'
+
+interface CurrentUserState {
+  currentUser: UserType
+}
 
 class App extends React.Component<{}, CurrentUserState> {
   constructor(props) {
@@ -28,7 +33,8 @@ class App extends React.Component<{}, CurrentUserState> {
             this.setState({
               currentUser: {
                 id: snapShot.id,
-                ...snapShot.data()
+                email: snapShot.get('email'),
+                displayName: snapShot.get('displayName')
               }
             })
           })
@@ -52,6 +58,9 @@ class App extends React.Component<{}, CurrentUserState> {
         <Switch>
           <Route path='/login'>
             <LoginComponent />
+          </Route>
+          <Route path='/'>
+            <Home />
           </Route>
         </Switch>
       </Router>
