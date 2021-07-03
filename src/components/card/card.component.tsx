@@ -26,7 +26,7 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle'
 import MuiDialogContent from '@material-ui/core/DialogContent'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
-import image from './sesame-noodles.jpg'
+import image from '../../assets/card/sesame-noodles.jpg'
 
 const styles = (theme: Theme) =>
   createStyles({
